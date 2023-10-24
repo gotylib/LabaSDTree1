@@ -106,18 +106,29 @@ void BiTree::show()
 void BiTree::FoundStr(std::string str) {
 	found_str = str;
 	flag_found_str = 1;
+	paint();
 }
 
 void BiTree::FoundSymbol(char symbol) {
 	found_symbol = symbol;
 	flag_found_symbol = 1;
+	paint();
 }
 
 void BiTree::paint() {
 	if (flag_found_str == 1) {
 		if (root != nullptr) {
 			if (root->date.find(found_str) != std::string::npos) {
-				root->color = "Green";
+				if (root->color == "Read") {
+
+				}
+				else if (root->color == "Blue") {
+					root->color = "Read";
+				}
+				else {
+					root->color = "Green";
+				}
+				
 			}
 
 			if (root->right == nullptr && root->left == nullptr) {
@@ -170,22 +181,55 @@ void BiTree::paint_more_string(Node* right, Node* left)
 	}
 	else if (right == nullptr) {
 		if (left->date.find(found_str) != std::string::npos) {
-			left->color = "Green";
+			if (left->color == "Read") {
+
+			}
+			else if (left->color == "Blue") {
+				left->color = "Read";
+			}
+			else {
+				left->color = "Green";
+			}
+
 		}
 		return paint_left_string(left);
 	}
 	else if (left == nullptr) {
 		if (right->date.find(found_str) != std::string::npos) {
-			right->color = "Green";
+			if (right->color == "Read") {
+
+			}
+			else if (right->color == "Blue") {
+				right->color = "Read";
+			}
+			else {
+				right->color = "Green";
+			}
 		}
 		return paint_more_string(right->right, right->left);
 	}
 	else {
 		if (right->date.find(found_str) != std::string::npos) {
-			right->color = "Green";
+			if (right->color == "Read") {
+
+			}
+			else if (right->color == "Blue") {
+				right->color = "Read";
+			}
+			else {
+				right->color = "Green";
+			}
 		}
 		if (left->date.find(found_str) != std::string::npos) {
-			left->color = "Green";
+			if (left->color == "Read") {
+
+			}
+			else if (left->color == "Blue") {
+				left->color = "Read";
+			}
+			else {
+				left->color = "Green";
+			}
 		}
 		return paint_more_string(right->right, right->left), paint_more_string(left->right, left->left);
 	}
@@ -195,7 +239,15 @@ void BiTree::paint_more_string(Node* right, Node* left)
 void BiTree::paint_right_string(Node* right)
 {
 	if (right->date.find(found_str) != std::string::npos) {
-		right->color = "Green";
+		if (right->color == "Read") {
+
+		}
+		else if (right->color == "Blue") {
+			right->color = "Read";
+		}
+		else {
+			right->color = "Green";
+		}
 	}
 	if (right->right != nullptr && right->left != nullptr) {
 		return paint_more_string(right->left, right->right);
@@ -215,7 +267,15 @@ void BiTree::paint_right_string(Node* right)
 void BiTree::paint_left_string(Node* left)
 {
 	if (left->date.find(found_str) != std::string::npos) {
-		left->color = "Green";
+		if (left->color == "Read") {
+
+		}
+		else if (left->color == "Blue") {
+			left->color = "Read";
+		}
+		else {
+			left->color = "Green";
+		}
 	}
 	if (left->right != nullptr && left->left != nullptr) {
 		return paint_more_string(left->left, left->right);
@@ -354,4 +414,3 @@ BiTree::BiTree()
 BiTree ::~BiTree() {
 
 }
-
