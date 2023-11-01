@@ -3,6 +3,7 @@
 void BiTree::add(std::string date) {
 	if (root == nullptr) {
 		root = new Node(date);
+		root->pref = nullptr;
 	}
 	else {
 		add_more(date, root);
@@ -16,6 +17,7 @@ void BiTree::add_more(std::string date, Node* newNode) {
 		}
 		else {
 			newNode->right = new Node(date);
+			newNode->right->pref = newNode;
 		}
 	}
 	else if (compare_string(date, newNode->date) == 1) {
@@ -24,6 +26,7 @@ void BiTree::add_more(std::string date, Node* newNode) {
 		}
 		else {
 			newNode->left = new Node(date);
+			newNode->left->pref = newNode;
 		}
 	}
 	else {
@@ -36,14 +39,24 @@ void BiTree::remove_more(std::string date, Node* deleteNode)
 	if (date == deleteNode->date) {
 		if (deleteNode->score == 1) {
 			if (deleteNode->left == nullptr && deleteNode->right != nullptr) {
-				Node* current = deleteNode;
-				deleteNode = deleteNode->right;
-				delete current;
+				if (deleteNode->pref->right = deleteNode) {
+					deleteNode->pref->right = deleteNode->right;
+					delete deleteNode;
+				}
+				else {
+					deleteNode->pref->left = deleteNode->right;
+					delete deleteNode;
+				}
 			}
 			else if (deleteNode->right == nullptr && deleteNode->left != nullptr) {
-				Node* current = deleteNode;
-				deleteNode = deleteNode->left;
-				delete current;
+				if (deleteNode->pref->right = deleteNode) {
+					deleteNode->pref->right = deleteNode->left;
+					delete deleteNode;
+				}
+				else {
+					deleteNode->pref->left = deleteNode->left;
+					delete deleteNode;
+				}
 			}
 			else {
 				Node* current = deleteNode->left;
@@ -53,13 +66,15 @@ void BiTree::remove_more(std::string date, Node* deleteNode)
 				if (current->left != nullptr) {
 					deleteNode->date = current->date;
 					deleteNode->score = current->score;
-					current = current->left;
+					current->pref->right = current->left;
+					delete current;
 				}
 				else {
 					deleteNode->date = current->date;
 					deleteNode->score = current->score;
 					delete current;
-					current = nullptr;
+					current->pref->right = nullptr;
+					
 				}
 			}
 		}
@@ -128,7 +143,7 @@ void BiTree::paint() {
 				else {
 					root->color = "Green";
 				}
-				
+
 			}
 
 			if (root->right == nullptr && root->left == nullptr) {
@@ -176,10 +191,15 @@ void BiTree::paint() {
 
 void BiTree::paint_more_string(Node* right, Node* left)
 {
+	if (found == 0) {
+		std::cout << right->date << std::endl;
+		std::cout << left->date << std::endl;
+	}
+	
 	if (right == nullptr && left == nullptr) {
 		return;
 	}
-	else if (right == nullptr) {
+	else if (right == nullptr && left != nullptr) {
 		if (left->date.find(found_str) != std::string::npos) {
 			if (left->color == "Read") {
 
@@ -192,9 +212,10 @@ void BiTree::paint_more_string(Node* right, Node* left)
 			}
 
 		}
+		if(left-> == )
 		return paint_left_string(left);
 	}
-	else if (left == nullptr) {
+	else if (left == nullptr && right!=nullptr) {
 		if (right->date.find(found_str) != std::string::npos) {
 			if (right->color == "Read") {
 
@@ -321,7 +342,7 @@ void BiTree::paint_more_char(Node* right, Node* left) {
 			else {
 				right->color = "Blue";
 			}
-			
+
 		}
 		return paint_more_char(right->right, right->left);
 	}
