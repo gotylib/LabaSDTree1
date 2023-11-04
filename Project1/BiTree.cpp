@@ -72,9 +72,17 @@ void BiTree::remove_more(std::string date, Node* deleteNode)
 				else {
 					deleteNode->date = current->date;
 					deleteNode->score = current->score;
-					delete current;
-					current->pref->right = nullptr;
+					if (current->pref->right->date == deleteNode->date) {
+						current->pref->right = nullptr;
+						delete current;
+					}
+					else {
+						current->pref->left = nullptr;
+						delete current;
+					}
 					
+					
+
 				}
 			}
 		}
@@ -129,7 +137,6 @@ void BiTree::FoundSymbol(char symbol) {
 	flag_found_symbol = 1;
 	paint();
 }
-
 void BiTree::paint() {
 	if (flag_found_str == 1) {
 		if (root != nullptr) {
@@ -143,7 +150,7 @@ void BiTree::paint() {
 				else {
 					root->color = "Green";
 				}
-
+				
 			}
 
 			if (root->right == nullptr && root->left == nullptr) {
@@ -191,15 +198,10 @@ void BiTree::paint() {
 
 void BiTree::paint_more_string(Node* right, Node* left)
 {
-	if (found == 0) {
-		std::cout << right->date << std::endl;
-		std::cout << left->date << std::endl;
-	}
-	
 	if (right == nullptr && left == nullptr) {
 		return;
 	}
-	else if (right == nullptr && left != nullptr) {
+	else if (right == nullptr) {
 		if (left->date.find(found_str) != std::string::npos) {
 			if (left->color == "Read") {
 
@@ -212,10 +214,9 @@ void BiTree::paint_more_string(Node* right, Node* left)
 			}
 
 		}
-		if(left-> == )
 		return paint_left_string(left);
 	}
-	else if (left == nullptr && right!=nullptr) {
+	else if (left == nullptr) {
 		if (right->date.find(found_str) != std::string::npos) {
 			if (right->color == "Read") {
 
@@ -342,7 +343,7 @@ void BiTree::paint_more_char(Node* right, Node* left) {
 			else {
 				right->color = "Blue";
 			}
-
+			
 		}
 		return paint_more_char(right->right, right->left);
 	}
@@ -424,6 +425,28 @@ void BiTree::paint_left_char(Node* left) {
 	}
 	else {
 
+	}
+}
+
+void BiTree::FoundElem(std::string str) {
+	found_more(root, str);
+}
+
+void BiTree::found_more(Node* found, std::string str) {
+	if (compare_string(found->date, str) == 1) {
+		std::cout << found->date << std::endl;
+		return found_more(found->right, str);
+	}
+	else if (compare_string(found->date, str) == 0) {
+		std::cout << found->date << std::endl;
+		return found_more(found->left, str);
+	}
+	else if(found->date == str){
+		std::cout << found->date << std::endl;
+		return;
+	}
+	else {
+		std::cout << "Node didn't found" << std::endl;
 	}
 }
 BiTree::BiTree()
