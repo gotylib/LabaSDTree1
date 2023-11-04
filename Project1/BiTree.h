@@ -3,15 +3,15 @@
 #include <Windows.h>
 #include <conio.h>
 #include <stdio.h>
+#include <ctime>
 #include "compare_string.h"
-
 
 
 enum ColorConsole {
     Blue = 1,
     Green = 2,
     Read = 12,
-    White = 7
+    White = 7,
 };
 class Node {
 public:
@@ -20,6 +20,7 @@ public:
 	int score;
 	Node* right;
 	Node* left;
+    Node* pref;
 	Node(std::string date) {
         color = "White";
 		this->date = date;
@@ -43,6 +44,7 @@ class BiTree {
     void paint_more_string(Node* left, Node* right);
     void paint_left_string(Node* left);
     void paint_right_string(Node* right);
+    void found_more(Node* found, std::string str);
     struct Trunk
     {
         Trunk* prev;
@@ -55,7 +57,7 @@ class BiTree {
         }
     };
 
-    // Âñïîìîãàòåëüíàÿ ôóíêöèÿ äëÿ ïå÷àòè âåòâåé áèíàðíîãî äåðåâà
+    // Ð’ÑÐ¿Ð¾Ð¼Ð¾Ð³Ð°Ñ‚ÐµÐ»ÑŒÐ½Ð°Ñ Ñ„ÑƒÐ½ÐºÑ†Ð¸Ñ Ð´Ð»Ñ Ð¿ÐµÑ‡Ð°Ñ‚Ð¸ Ð²ÐµÑ‚Ð²ÐµÐ¹ Ð±Ð¸Ð½Ð°Ñ€Ð½Ð¾Ð³Ð¾ Ð´ÐµÑ€ÐµÐ²Ð°
     void showTrunks(Trunk* p)
     {
         if (p == nullptr) {
@@ -78,7 +80,7 @@ class BiTree {
         printTree(root->right, trunk, true);
 
         if (!prev) {
-            trunk->str = "———";
+            trunk->str = "---";
         }
         else if (isLeft)
         {
@@ -127,9 +129,14 @@ public:
     void paint();
     void FoundStr(std::string str);
     void FoundSymbol(char symbol);
+    void FoundElem(std::string str);
 	BiTree();
 	~BiTree();
 };
+
+
+
+
 
 
 
