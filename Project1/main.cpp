@@ -1,32 +1,45 @@
 #include "BiTree.h"
-#include <benchmark/benchmark.h>
+#include <iostream>
+#include <fstream>
+#include <chrono>
 
-static void BM_paint(benchmark::State& state) {
-    // Сздаем дерево и заполняем его данными
-    BiTree root;
-    root.add("20");
-    root.add("2");
-    root.add("3");
-    root.add("10");
-    root.add("5");
-    root.add("6");
-    root.add("1");
-    root.add("8");
-    root.add("7");
-    root.add("4");
-    root.add("11");
-    root.add("15");
-    root.add("13");
-    root.add("28");
-    root.add("15");
-    root.FoundSymbol('2');
-    root.FoundStr("20");
+using namespace std;
+using namespace chrono;
 
-    for (auto _ : state) {
-        // Измеряем время выполнения функции paint()
-        root.paint();
-    }
+int main() {
+
+	std::ifstream file("file.txt");
+	std::string elem;
+	char symble;
+	std::cin >> symble;
+	BiTree arr;
+	system_clock::time_point start = system_clock::now();
+	if (file.is_open()) {
+		while (!file.eof()) {
+			file >> elem;
+			if (elem[0] == symble) {
+				std::cout << elem << std::endl;
+			}
+		}
+	}
+	file.close();
+	system_clock::time_point end = system_clock::now();
+	std::cout << "Time to file" << std::endl;
+	std::cout << duration_cast<nanoseconds>(end - start).count() << std::endl;
+		
+	system_clock::time_point starte = system_clock::now();
+	std::ifstream files("file.txt");
+	if (files.is_open()) {
+		while (!files.eof()) {
+			files >> elem;
+			arr.add(elem);
+		}
+	}
+	arr.FoundSymbol(symble);
+	arr.show();
+	system_clock::time_point ende = system_clock::now();
+	std::cout << "Time to tree" << std::endl;
+	std::cout << duration_cast<nanoseconds>(ende - starte).count() << std::endl;
+	
+
 }
-
-BENCHMARK(BM_paint);
-BENCHMARK_MAIN();
